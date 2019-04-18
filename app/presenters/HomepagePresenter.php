@@ -32,7 +32,10 @@ class HomepagePresenter extends BasePresenter
 		$this->template->dir = $dir;
 		$this->getDirtree(DIR_ROOT);
 		$this->template->firstLevel = $this->firstLevel;
-		$this->template->files = [];//$this->findFiles(DIR_ROOT.'/'.$dir, $file);
+		if($dir == "" && $file == "")
+			$this->template->files =[];
+		else
+			$this->template->files = $this->findFiles(DIR_ROOT.'/'.$dir, $file);
 			if ($this->isAjax()) {
 					$this->redrawControl('listing');
 			}
@@ -88,6 +91,7 @@ class HomepagePresenter extends BasePresenter
 			//$this->template->dirtree = $dirs;
 			return $dirs;
 	}
+
 	function findFiles($dir, $regex='', $ignoreEmpty=false, $level = 1)
 	{
 		//$this->template->dir = $dir;
@@ -104,15 +108,7 @@ class HomepagePresenter extends BasePresenter
 					else if ($node->isFile()) {
 							$name = $node->getFilename();
 							if ('' == $regex || preg_match('/'.$regex.'/', $name)) {
-									$files[$this->fileIndex]["title"] = $name;
-									if (strlen($name)>maxFilenameLengh)
-										$name = substr($name,0,maxFilenameLengh-3)."...";
-										$files[$this->fileIndex]["text"] = $name;
-										$files[$this->fileIndex]["href"] =$this->link(':download',substr($node->getPathname(),strlen(DIR_ROOT)));
-										$files[$this->fileIndex]["ext"] = $node->getExtension();
-										$files[$this->fileIndex]["size"] =$node->getSize();
-										$files[$this->fileIndex]["date"] = date("d. m. Y G:i:s",$node->getMTime());
-										$files[$this->fileIndex]["imageCssClass"] = 'fa fa-folder';
+									$files[$this->fileIndex] = $this->getFile($node);
 										$this->fileIndex++;
 							}
 					}
@@ -132,22 +128,45 @@ class HomepagePresenter extends BasePresenter
 			$i = 0;
 			foreach ($dir as $node) {
 				if ($node->isFile()) {
-						$name = $node->getFilename();
-						if ('' == $regex || preg_match($regex, $name)) {
-								$files[$i]["title"] = $name;
-								if (strlen($name)>maxFilenameLengh)
-									$name = substr($name,0,maxFilenameLengh-3)."...";
-								$files[$i]["text"] = $name;
-								$files[$i]["href"] =$this->link(':download',substr($node->getPathname(),strlen(DIR_ROOT)));
-								$files[$i]["ext"] = $node->getExtension();
-								$files[$i]["size"] = $node->getSize();
-								$files[$i]["date"] = date("d. m. Y G:i:s",$node->getMTime());
-								$i++;
+					$name = $node->getFilename();
+					if ('' == $regex || preg_match($regex, $name)) {
+						  $files[$i] = $this->getFile($node);
+							$i++;
 						}
 				}
 			}
 
 		return $files;
+	}
+
+	function getFile($node)
+	{
+			$file = array();
+			$name = $node->getFilename();
+			$file["title"] = $name;
+			if (strlen($name)>maxFilenameLengh)
+				$name = substr($name,0,maxFilenameLengh-3)."...";
+			$file["text"] = $name;
+			$file["href"] =$this->link(':download',substr($node->getPathname(),strlen(DIR_ROOT)));
+			$file["ext"] = $node->getExtension();
+			$file["size"] = $node->getSize();
+			$file["date"] = date("d. m. Y G:i:s",$node->getMTime());
+			switch($node->getExtension()){
+				case "xls":
+				case "xlsx":
+					$file["imageCssClass"] = 'fa fa-file-excel-o';
+				break;
+				case "doc":
+				case "docx":
+					$file["imageCssClass"] = 'fa fa-file-word-o';
+				break;
+				case "pdf":
+					$file["imageCssClass"] = 'fa fa-file-pdf-o';
+				break;
+				default:
+					$file["imageCssClass"] = 'fa fa-file';
+			}
+			return $file;
 	}
 
 	public function actionDownload($name){

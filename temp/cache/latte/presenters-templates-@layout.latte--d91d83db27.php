@@ -47,10 +47,11 @@ class Templated91d83db27 extends Latte\Runtime\Template
 </head>
 
 <body>
+	
 
     <div class="top-header-wrapper">
         <div class="container">
-            <img src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 32 */ ?>/images/fnol-logo-intranet.png" alt="" title="" height="75">
+            <img src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 33 */ ?>/images/fnol-logo-intranet.png" alt="" title="" height="75">
             <span class="text-right text-intranet">Intranet&nbsp;&nbsp;FN Olomouc</span>
         </div>
         <div class="container">&nbsp;</div>
@@ -72,7 +73,7 @@ class Templated91d83db27 extends Latte\Runtime\Template
 		$iterations = 0;
 		foreach ($flashes as $flash) {
 			?>		<div<?php if ($_tmp = array_filter(['alert', 'alert-' . $flash->type])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>><?php
-			echo LR\Filters::escapeHtmlText($flash->message) /* line 50 */ ?></div>
+			echo LR\Filters::escapeHtmlText($flash->message) /* line 51 */ ?></div>
 <?php
 			$iterations++;
 		}
@@ -85,7 +86,7 @@ class Templated91d83db27 extends Latte\Runtime\Template
         <div class="container">
             <div class="row">
                 <div class="col-sm-6 text-left">
-                    <?php echo LR\Filters::escapeHtmlText(date('Y')) /* line 59 */ ?> &copy; FN Olomouc
+                    <?php echo LR\Filters::escapeHtmlText(date('Y')) /* line 60 */ ?> &copy; FN Olomouc
                 </div>
                 <div class="col-sm-6 text-right">
                     i-Tree ver. 1.1&nbsp;
@@ -104,7 +105,7 @@ class Templated91d83db27 extends Latte\Runtime\Template
 	function prepare()
 	{
 		extract($this->params);
-		if (isset($this->params['flash'])) trigger_error('Variable $flash overwritten in foreach on line 50');
+		if (isset($this->params['flash'])) trigger_error('Variable $flash overwritten in foreach on line 51');
 		Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
 		
 	}

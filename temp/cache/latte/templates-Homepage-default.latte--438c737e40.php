@@ -32,7 +32,7 @@ class Template438c737e40 extends Latte\Runtime\Template
 	function prepare()
 	{
 		extract($this->params);
-		if (isset($this->params['file'])) trigger_error('Variable $file overwritten in foreach on line 28');
+		if (isset($this->params['file'])) trigger_error('Variable $file overwritten in foreach on line 29');
 		Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
 		
 	}
@@ -56,7 +56,7 @@ class Template438c737e40 extends Latte\Runtime\Template
 				uiLibrary: 'bootstrap4',
 //                iconsLibrary: 'fontawesome',
 //                imageUrlField: 'flagUrl',
-                dataSource: <?php echo LR\Filters::escapeJs($dirtree) /* line 47 */ ?>,
+                dataSource: <?php echo LR\Filters::escapeJs($dirtree) /* line 49 */ ?>,
                 border: true
             });
 			tree.on('select', function (e, node, id) {
@@ -111,6 +111,7 @@ class Template438c737e40 extends Latte\Runtime\Template
 			<table class="table table-hover">
 				<thead>
 					<tr class="text-bold bg-primary">
+              <th></th>
     					<th class="w-75 p-2">Název souboru</th>
     					<th>Typ</th>
     					<th>Velikost[B]</th>
@@ -122,11 +123,12 @@ class Template438c737e40 extends Latte\Runtime\Template
 		$iterations = 0;
 		foreach ($files as $file) {
 ?>    			    <tr>
-    			        <td><a href=<?php echo LR\Filters::escapeHtmlAttrUnquoted(LR\Filters::safeUrl($file["href"])) /* line 29 */ ?> title=<?php
-			echo LR\Filters::escapeHtmlAttrUnquoted($file["title"]) /* line 29 */ ?>> <?php echo LR\Filters::escapeHtmlText($file["text"]) /* line 29 */ ?></a></td>
-   					    <td class="text-lowercase"> <?php echo LR\Filters::escapeHtmlText($file["ext"]) /* line 30 */ ?> </td>
-    					<td class="text-right"> <?php echo LR\Filters::escapeHtmlText($file["size"]) /* line 31 */ ?> </td>
-    					<td class="text-right"> <?php echo LR\Filters::escapeHtmlText($file["date"]) /* line 32 */ ?></td>
+    			    <td><i class="<?php echo LR\Filters::escapeHtmlAttr($file["imageCssClass"]) /* line 30 */ ?>"></i></td>
+    			    <td><a href=<?php echo LR\Filters::escapeHtmlAttrUnquoted(LR\Filters::safeUrl($file["href"])) /* line 31 */ ?> title=<?php
+			echo LR\Filters::escapeHtmlAttrUnquoted($file["title"]) /* line 31 */ ?>> <?php echo LR\Filters::escapeHtmlText($file["text"]) /* line 31 */ ?></a></td>
+   					  <td class="text-lowercase"> <?php echo LR\Filters::escapeHtmlText($file["ext"]) /* line 32 */ ?> </td>
+    					<td class="text-right"> <?php echo LR\Filters::escapeHtmlText($file["size"]) /* line 33 */ ?> </td>
+    					<td class="text-right"> <?php echo LR\Filters::escapeHtmlText($file["date"]) /* line 34 */ ?></td>
     			    </tr>
 <?php
 			$iterations++;

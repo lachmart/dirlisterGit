@@ -27,11 +27,11 @@
 				</thead>
 				<tbody>
     			    <tr n:foreach="$files as $file">
-    			    <td><a></a></td>
-    			    <td><a href={$file["href"]} title={$file["title"]}> {$file["text"]}</a></td>
-   					  <td class="text-lowercase"> {$file["ext"]} </td>
-    					<td class="text-right"> {$file["size"]} </td>
-    					<td class="text-right"> {$file["date"]}</td>
+      			    <td><i class="{$file["imageCssClass"]}"></i></td>
+      			    <td><a href={$file["href"]} title={$file["title"]}> {$file["text"]}</a></td>
+     					  <td class="text-lowercase"> {$file["ext"]} </td>
+      					<td class="text-right"> {$file["size"]} </td>
+      					<td class="text-right"> {$file["date"]}</td>
     			    </tr>
 				</tbody>
 			</table>
