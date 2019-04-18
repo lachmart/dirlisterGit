@@ -1,41 +1,23 @@
-﻿{block content}
+{block content}
+  <form id="findForm">
+<select name="dir" id="dirSelect" >
+  <option value="">všechny podsložky</option>
+  <option n:foreach="$firstLevel as $file" value="{$file}">{$file}</option>
+</select>
+  Hledaný soubor:<br>
+  <input type="text" name="file" id="fileInput"><br>
+  <input type="submit" value="Hledat">
+</form>
 
-    <div class="alert text-bold text-white col-12" style="background-color:#76A4BD;"> 
-        <form id="findForm">
-    		<div class="row">
-    			<div class="col-sm-3">
-    				<label class="control-label">Hledaný název souboru:</label>
-                    <input type="text" name="file" id="fileInput" class="form-control"><br>
-    			</div>
-    
-    			<div class="col-sm-3">
-    				<label class="control-label">Hledat ve složce:</label>
-                    <select name="dir" id="dirSelect" class="form-control">
-                      <option value="">všechny podsložky</option>
-                      <option n:foreach="$firstLevel as $file" value="{$file}">{$file}</option>
-                    </select>
-    			</div>
-    
-    			<div class="col-sm-3">
-    				<br />
-                    <input type="submit" class="btn btn-success" value="Vyledat soubor">
-    				<input type="reset" class="btn btn-success" id="filter-btn-reset" value="Reset" />
-    			</div>
-    
-    		</div>
-    	</form>
-    </div>
-    <br />
-    
     <div class="row">
-    	<div n:snippet=listing class="col-10">
-            <!-- ol class="breadcrumb">
-            	<li><span class="fa fa-folder"></span>Zvolený adresář:&nbsp;</li>                
-            	<li>{$dir}</li>
-            </ol -->
+    	<div n:snippet=listing class="col-8">
+            <ol class="breadcrumb">
+            	<li><a n:href="default">Vybrane dokumenty: </a></li>
+            	<li>\{$dir}</li>
+            </ol>
 			<table class="table table-hover">
 				<thead>
-					<tr class="text-bold text-white bg-info">
+					<tr class="text-bold bg-primary">
     					<th class="w-75 p-2">Název souboru</th>
     					<th>Typ</th>
     					<th>Velikost[B]</th>

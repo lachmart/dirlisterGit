@@ -4,8 +4,8 @@ use Nette\Application\Responses\FileResponse;
 
 //include("../../qc.fnol.loc/app/model/enum/Constant.php");
 //define("DIR_ROOT", \fnolQc\enum\Constant::DIR_ROOT);
-define("DIR_ROOT", "/mnt/FS17/data/");
-//define("DIR_ROOT", "../vendor");
+//define("DIR_ROOT", "/mnt/FS17/data/");
+define("DIR_ROOT", "../vendor");
 //define("DIR_ROOT", "..");
 //define("DIR_DEFAULT", "\dezinfekce");
 define("DIR_DEFAULT", "");
@@ -32,7 +32,7 @@ class HomepagePresenter extends BasePresenter
 		$this->template->dir = $dir;
 		$this->getDirtree(DIR_ROOT);
 		$this->template->firstLevel = $this->firstLevel;
-		$this->template->files =$this->findFiles(DIR_ROOT.'/'.$dir, $file);
+		$this->template->files = [];//$this->findFiles(DIR_ROOT.'/'.$dir, $file);
 			if ($this->isAjax()) {
 					$this->redrawControl('listing');
 			}
@@ -40,6 +40,7 @@ class HomepagePresenter extends BasePresenter
 
 	function getDirtree($dir, $regex='', $ignoreEmpty=false, $level = 1)
 	{
+	//	$this->template->dir = $dir;
 	    if (!$dir instanceof \DirectoryIterator) {
 	        $dir = new \DirectoryIterator((string)$dir);
 	    }
@@ -76,8 +77,9 @@ class HomepagePresenter extends BasePresenter
 										$files[$this->fileIndex]["text"] = $name;
 										$files[$this->fileIndex]["href"] =$this->link(':download',substr($node->getPathname(),strlen(DIR_ROOT)));
 										$files[$this->fileIndex]["ext"] = $node->getExtension();
-										$files[$this->fileIndex]["size"] =number_format( $node->getSize()/1024,2);
-										$files[$this->fileIndex]["date"] = date("d. m. Y",$node->getMTime());
+										$files[$this->fileIndex]["size"] = $node->getSize();
+										$files[$this->fileIndex]["date"] = date("d. m. Y G:i:s",$node->getMTime());
+										$files[$this->fileIndex]["imageCssClass"] = 'fa fa-folder';
 										$this->fileIndex++;
 							}
 					}
@@ -88,6 +90,7 @@ class HomepagePresenter extends BasePresenter
 	}
 	function findFiles($dir, $regex='', $ignoreEmpty=false, $level = 1)
 	{
+		//$this->template->dir = $dir;
 	    if (!$dir instanceof \DirectoryIterator) {
 	        $dir = new \DirectoryIterator((string)$dir);
 	    }
@@ -107,8 +110,9 @@ class HomepagePresenter extends BasePresenter
 										$files[$this->fileIndex]["text"] = $name;
 										$files[$this->fileIndex]["href"] =$this->link(':download',substr($node->getPathname(),strlen(DIR_ROOT)));
 										$files[$this->fileIndex]["ext"] = $node->getExtension();
-										$files[$this->fileIndex]["size"] =number_format( $node->getSize()/1024,2);
-										$files[$this->fileIndex]["date"] = date("d. m. Y",$node->getMTime());
+										$files[$this->fileIndex]["size"] =$node->getSize();
+										$files[$this->fileIndex]["date"] = date("d. m. Y G:i:s",$node->getMTime());
+										$files[$this->fileIndex]["imageCssClass"] = 'fa fa-folder';
 										$this->fileIndex++;
 							}
 					}
@@ -120,6 +124,7 @@ class HomepagePresenter extends BasePresenter
 
 	function getFiles($dir, $regex='', $ignoreEmpty=false)
 	{
+		//$this->template->dir = $dir;
 			if (!$dir instanceof \DirectoryIterator) {
 					$dir = new \DirectoryIterator((string)$dir);
 			}
@@ -135,8 +140,8 @@ class HomepagePresenter extends BasePresenter
 								$files[$i]["text"] = $name;
 								$files[$i]["href"] =$this->link(':download',substr($node->getPathname(),strlen(DIR_ROOT)));
 								$files[$i]["ext"] = $node->getExtension();
-								$files[$i]["size"] =number_format( $node->getSize()/1024,2);
-								$files[$i]["date"] = date("d. m. Y",$node->getMTime());
+								$files[$i]["size"] = $node->getSize();
+								$files[$i]["date"] = date("d. m. Y G:i:s",$node->getMTime());
 								$i++;
 						}
 				}
@@ -153,6 +158,7 @@ class HomepagePresenter extends BasePresenter
 	}
 	public function handleChangeFolder($dir)
 	{
+		$this->template->dir = $dir;
 			//$this->getFiles(DIR_ROOT.$dir);
 			if ($this->isAjax()) {
 					$this->redrawControl('listing');
@@ -160,6 +166,7 @@ class HomepagePresenter extends BasePresenter
 	}
 		public function handleFind($dir)
 	{
+		$this->template->dir = $dir;
 			if ($this->isAjax()) {
 					$this->redrawControl('listing');
 			}
