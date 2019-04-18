@@ -1,0 +1,156 @@
+body {
+	font-family: 'Source Sans Pro', Arial, sans-serif;
+	font-size: 1.20rem;
+}
+.form-control {
+	font-size:1.2rem;
+}
+.text-bold {
+	font-weight:bold;
+}
+.top-header-wrapper {
+ 	background-color:#76A4BD; 
+}
+.top-header {
+	color:#fff;
+	padding:0 3rem;
+	font-size:1.5rem
+	border-top-color:#ff0000 solid 2px;
+}
+.text-intranet{
+/* 	text-transform: uppercase; */
+	color: #FFFFFF;
+/*	display:inline-block; */
+    padding-left: 1.0rem;
+    padding-top: 2.0rem;  
+	font-size: 2.0rem;
+}
+nav {
+    color: #FFFFFF;
+    font-size: 1.8rem;
+}
+.navbar-default{
+	background-image:none !important;
+ 	background-color:#5F6569;
+	box-shadow: none;
+	border:none;
+	border-radius:0px; 
+}
+.navbar-default a {
+    padding:5px;
+	color:#fff !important;
+	text-shadow:none !important;
+	text-transform: uppercase;
+	font-size:1.3rem;
+	font-weight:bold;
+}
+.navbar-default li:hover, a.navbar-brand:hover {
+    padding:5px;
+	background-color:#327DA5 !important
+}
+.well {
+	background-image:none !important;
+    padding: 10px;
+    background-color:#76A4BD;
+	box-shadow:none;
+	border-radius:5px;
+	border:none;
+	margin-bottom:0px;
+}
+
+/*******************/
+/** form buttons **/
+.btn {
+	float: left;
+    padding: 5px;
+    margin: 5px;
+	border-radius: 3px;
+}
+.btn-group {
+}
+.btn-success {
+	background-image: none !important;
+    background-color: #E9424C;    
+	border: 2px solid #FFFFFF;
+/* 	box-shadow: 0 0 3px rgba(0, 0, 0, 0.4); */
+	color: #fff;
+	height: 32px;
+	padding: 5 15px;
+}
+.btn-success:hover {
+/*	background-color: #2364A5; */
+    color: #E9424C;
+	background-color: #ffffff; 
+}
+
+/********************/
+/* FORMs entities  **/
+.control-label {
+    font-size: 1.15rem;
+    color: #f4f4f4;
+}
+.form-control {
+    height: 35px;
+    font-size: 1.2rem;
+    background-color: #f4f4f4;
+    color: #203459;
+    padding: 0.8rem ;
+/*    float: right; */
+}
+
+h1 {
+    color:#76A4BD;
+	margin: .5rem 0 2.0rem 0;
+	font-size: 1.95rem;
+	text-transform: uppercase;
+}
+.breadcrumb {
+	border-radius:0px;
+}
+.table {
+    width: 100%;
+    padding: 0px;
+}
+.table thead th {
+	color:#fff;
+    font-size: 1.0rem;    
+    background-color:#76A4BD;  
+}
+.table tbody td {
+    height: 18px;
+    font-size: 0.8rem;
+/*	background-color: #F4F4F4; */ 
+} 
+ 
+
+/*************************/
+/** footer section ******/
+footer {   
+    background-color:#76A4BD;
+    padding: 2rem 0 0 0;  
+}
+footer .tail {
+    margin-top: 2rem;
+    background-color: #2364A5;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    margin-left: 0;
+    margin-right: 0;
+}
+.logo-footer {
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #2c4061;
+}
+footer h3 {
+    font-size: 2.0rem;
+    margin-bottom: 3.0rem;
+}
+footer .submenu {
+    list-style: none;
+    line-height: 2.5;
+    text-indent: 0;
+    padding-left: 0;
+}
+

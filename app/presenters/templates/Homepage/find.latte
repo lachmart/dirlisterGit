@@ -1,0 +1,74 @@
+﻿{block content}
+
+    <div class="alert text-bold text-white col-12" style="background-color:#76A4BD;"> 
+        <form id="findForm">
+    		<div class="row">
+    			<div class="col-sm-3">
+    				<label class="control-label">Hledaný název souboru:</label>
+                    <input type="text" name="file" id="fileInput" class="form-control"><br>
+    			</div>
+    
+    			<div class="col-sm-3">
+    				<label class="control-label">Hledat ve složce:</label>
+                    <select name="dir" id="dirSelect" class="form-control">
+                      <option value="">všechny podsložky</option>
+                      <option n:foreach="$firstLevel as $file" value="{$file}">{$file}</option>
+                    </select>
+    			</div>
+    
+    			<div class="col-sm-3">
+    				<br />
+                    <input type="submit" class="btn btn-success" value="Vyledat soubor">
+    				<input type="reset" class="btn btn-success" id="filter-btn-reset" value="Reset" />
+    			</div>
+    
+    		</div>
+    	</form>
+    </div>
+    <br />
+    
+    <div class="row">
+    	<div n:snippet=listing class="col-10">
+            <!-- ol class="breadcrumb">
+            	<li><span class="fa fa-folder"></span>Zvolený adresář:&nbsp;</li>                
+            	<li>{$dir}</li>
+            </ol -->
+			<table class="table table-hover">
+				<thead>
+					<tr class="text-bold text-white bg-info">
+    					<th class="w-75 p-2">Název souboru</th>
+    					<th>Typ</th>
+    					<th>Velikost[B]</th>
+    					<th>Aktualizace</th>
+					</tr>
+				</thead>
+				<tbody>
+    			    <tr n:foreach="$files as $file">
+    			        <td><a href={$file["href"]} title={$file["title"]}> {$file["text"]}</a></td>
+   					    <td class="text-lowercase"> {$file["ext"]} </td>
+    					<td class="text-right"> {$file["size"]*1000} </td>
+    					<td class="text-right"> {$file["date"]}</td>
+    			    </tr>
+				</tbody>
+			</table>
+    	</div>
+    </div>
+
+
+  <script>
+		 $('#findForm').submit (function(event){
+			 event.preventDefault();
+			 var dir = $('#dirSelect').val();
+			 var file = $('#fileInput').val();
+			 $.nette.ajax({
+					 url: {link find!},
+					 data: { dir :  dir, file : file }
+			 });
+
+		 });
+
+		 //tree.expandAll();
+
+  </script>
+
+{/block}

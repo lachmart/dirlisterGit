@@ -1,0 +1,62 @@
+{block content}
+
+    <div class="row">
+        {block tree}
+            <div class="_text-bold col-4">
+                <ol class="breadcrumb">
+                    <li><span class="fa fa-folder"></span>&nbsp;</li>
+                	<li>Struktura dokumentace:</li>
+                </ol>
+        		<div id="tree"></div>
+        	</div>
+    	{/block}
+		{snippet wholeList}
+            <ol class="breadcrumb">
+            	<li><span class="fa fa-folder"></span>Vybraná složka:&nbsp;<a n:href="default">{$dir}</a></li>
+            </ol>
+        	<div n:snippet=listing class="col-8">
+        		<table class="table table-bordered table-hover">
+        			<thead>
+                        <tr class="text-bold text-white bg-info">
+        				
+        					<th class="w-75 p-2">Název souboru</th>
+        					<th>Typ</th>
+        					<th>Velikost[B]</th>
+        					<th>Aktualizace</th>
+        				</tr>
+        			</thead>
+        			<tbody>
+        			    <tr n:foreach="$files as $file">
+        			        <td><a href={$file["href"]} title={$file["title"]}> {$file["text"]}</a></td>
+        				    <td class="text-lowercase"> {$file["ext"]} </td>
+        					<td class="text-right"> {$file["size"]*1000} </td>
+        					<td class="text-right"> {$file["date"]}</td>
+        			    </tr>
+        			</tbody>
+        		</table>
+        	</div>
+		{/snippet}
+    </div>
+
+  <script>
+    var tree = $('#tree').tree({
+				primaryKey: 'href',
+				uiLibrary: 'bootstrap4',
+//                iconsLibrary: 'fontawesome',
+//                imageUrlField: 'flagUrl',
+                dataSource: {$dirtree},
+                border: true
+            });
+			tree.on('select', function (e, node, id) {
+         //window.location.href = id;
+				 $.nette.ajax({
+				     url: {link changeFolder!},
+				     data: { dir : id }
+				 });
+     });
+
+		 //tree.expandAll();
+
+  </script>
+
+{/block}

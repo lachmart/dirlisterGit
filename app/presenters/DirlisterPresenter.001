@@ -1,0 +1,91 @@
+<?php
+namespace App\Presenters;
+use Nette\Application\Responses\FileResponse;
+
+//include("../../qc.fnol.loc/app/model/enum/Constant.php");
+//define("DIR_ROOT", \fnolQc\enum\Constant::DIR_ROOT);
+//define("DIR_ROOT", "..");
+define("DIR_ROOT", "/mnt/FS17/data/");
+//define("DIR_DEFAULT", "\dezinfekce");
+define("DIR_DEFAULT", "");
+define("maxFilenameLengh",50);
+
+
+final class DirlisterPresenter extends BasePresenter
+{
+	public function renderDefault($dir = DIR_DEFAULT)
+	{
+		$this->template->dir = $dir;
+		$this->template->dirtree =  $this->getDirtree(DIR_ROOT);
+		$this->template->files = $this->getFiles(DIR_ROOT.$dir);
+		//var_dump($this->template->dirtree);
+	}
+
+	function getDirtree($dir, $regex='', $ignoreEmpty=false)
+	{
+	    if (!$dir instanceof \DirectoryIterator) {
+	        $dir = new \DirectoryIterator((string)$dir);
+	    }
+	    $dirs  = array();
+			$i = 0;
+	    foreach ($dir as $node) {
+	        if ($node->isDir() && !$node->isDot()) {
+	            $tree = $this->getDirtree($node->getPathname(), $regex, $ignoreEmpty);
+	            if (!$ignoreEmpty || count($tree)) {
+					$dirs[$i]["text"] = $node->getFilename();
+					$dirs[$i]["href"] =substr($node->getPathname(),strlen(DIR_ROOT));
+	                $dirs[$i]["children"] = $tree;
+					if (DIR_ROOT.$this->template->dir == $node->getPathname())
+	                	$dirs[$i]["active"] = true;
+					else {
+						$dirs[$i]["active"] = false;
+					}
+					$i++;
+    				$this->template->link = substr($node->getPathname(),strlen(DIR_ROOT));
+	            }
+	        }
+	    }
+	    return $dirs;// array_merge($dirs, $files);
+	}
+
+	function getFiles($dir, $regex='', $ignoreEmpty=false)
+	{
+			if (!$dir instanceof \DirectoryIterator) {
+				$dir = new \DirectoryIterator((string)$dir);
+			}
+			$files = array();
+			$i = 0;
+			foreach ($dir as $node) {
+				if ($node->isFile()) {
+					$name = $node->getFilename();
+					if ('' == $regex || preg_match($regex, $name)) {
+						$files[$i]["title"] = $name;
+						if (strlen($name)>maxFilenameLengh)
+							$name = substr($name,0,maxFilenameLengh-3)."...";
+						$files[$i]["name"] = $name;
+						$files[$i]["link"] =$this->link(':Download',substr($node->getPathname(),strlen(DIR_ROOT)));
+						$files[$i]["ext"] = $node->getExtension();
+						$files[$i]["size"] =number_format( $node->getSize()/1024,2);
+						$files[$i]["date"] = date("d. m. Y",$node->getMTime());
+						$i++;
+					}
+				}
+			}
+
+			return $files;
+	}
+
+	public function actionDownload($name){
+		if (strpos($name, '..') === false) {
+    // ".." was NOT found
+			$this->sendResponse(new FileResponse(DIR_ROOT.$name));
+		}
+	}
+	public function handleChangeFolder($dir)
+	{
+			$this->getFiles(DIR_ROOT.$dir);
+			if ($this->isAjax()) {
+				$this->redrawControl('listing');
+			}
+	}
+}
